@@ -98,12 +98,13 @@
     <string name="cancel" msgid="7401575239009060939">"取消"</string>
     <string name="ok" msgid="163967937451981024">"確定"</string>
     <string name="phone_type_and_phone_number" msgid="5034188169563878371">"<xliff:g id="PHONE_TYPE">%1$s</xliff:g> • <xliff:g id="PHONE_NUMBER">%2$s</xliff:g>"</string>
-    <string name="no_info_provided" msgid="716200382010821001">"沒有任何關於手機擁有者的資訊"</string>
-    <string name="tap_pencil" msgid="2723698054265296934">"如果這是你的手機，輕觸鉛筆圖示就能新增緊急救援資訊並顯示在這裡，以備不時之需"</string>
+    <string name="no_info_provided" msgid="716200382010821001">"沒有任何關於平板電腦擁有者的資訊"</string>
+    <!-- UNISOC: Bug 1127754,912395 androidq porting feature bug for change rTW launguage for tap_pencil -->
+    <string name="tap_pencil" msgid="2723698054265296934">"如果這是您的平板電腦，輕觸鉛筆圖示就能新增緊急救援資訊並顯示在這裡，以備不時之需"</string>
     <string name="clear_all" msgid="8899013032870561633">"全部清除"</string>
     <string name="clear" msgid="3648880442502887163">"清除"</string>
     <string name="clear_all_message" msgid="1548432000373861295">"要清除所有資訊和聯絡人嗎？"</string>
-    <string name="emergency_info_footer" msgid="8751758742506410146">"新增醫療資訊和緊急聯絡人，以便第一線救援人員在發生緊急事件時提供相關協助。\n\n任何人不必先將手機解鎖，都能在鎖定畫面上查看這項資訊，而且只要輕觸緊急聯絡人姓名，即可撥打對方號碼。"</string>
+    <string name="emergency_info_footer" msgid="8751758742506410146">"新增醫療資訊和緊急聯絡人，以便第一線救援人員在發生緊急事件時提供相關協助。\n\n任何人不必先將平板電腦解鎖，都能在鎖定畫面上查看這項資訊，而且只要輕觸緊急聯絡人姓名，即可撥打對方號碼。"</string>
     <string name="settings_suggestion_title" msgid="2503369576806243476">"新增緊急救援資訊"</string>
     <string name="settings_suggestion_body" msgid="5559349261345837716">"讓第一位回覆者查看你的資訊"</string>
     <string name="user_image_take_photo" msgid="2779924488370750102">"拍照"</string>

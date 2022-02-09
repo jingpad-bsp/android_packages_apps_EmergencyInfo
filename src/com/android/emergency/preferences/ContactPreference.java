@@ -121,10 +121,12 @@ public class ContactPreference extends Preference {
     }
 
     public void setPhoneUri(@NonNull Uri phoneUri) {
-        if (mContact != null && !phoneUri.equals(mContact.getPhoneUri()) &&
-                mRemoveContactDialog != null) {
-            mRemoveContactDialog.dismiss();
-        }
+        /* UNISOC: modify for bug1192049 @{ */
+        //        if (mContact != null && !phoneUri.equals(mContact.getPhoneUri()) &&
+        //                mRemoveContactDialog != null) {
+        //            mRemoveContactDialog.dismiss();
+        //        }
+        /* @} */
         mContact = mContactFactory.getContact(getContext(), phoneUri);
 
         setTitle(mContact.getName());
@@ -175,6 +177,9 @@ public class ContactPreference extends Preference {
                     @Override
                     public void onClick(DialogInterface dialogInterface,
                                         int which) {
+                        /* UNISOC: modify for bug1192049 @{ */
+                        dialogInterface.dismiss();
+                        /* @} */
                         if (mRemoveContactPreferenceListener != null) {
                             mRemoveContactPreferenceListener
                                     .onRemoveContactPreference(ContactPreference.this);

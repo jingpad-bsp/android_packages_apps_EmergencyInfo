@@ -43,7 +43,12 @@ import com.android.settingslib.CustomEditTextPreference;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Fragment for editing emergency info, including medical info and emergency contacts. */
+import android.database.ContentObserver;
+import android.os.Handler;
+
+/**
+ * Fragment for editing emergency info, including medical info and emergency contacts.
+ */
 public class EditInfoFragment extends PreferenceFragment {
     private static final String TAG = "EditInfoFragment";
 
@@ -57,6 +62,21 @@ public class EditInfoFragment extends PreferenceFragment {
 
     /** The category that holds the emergency contacts. */
     private EmergencyContactsPreference mEmergencyContactsPreferenceCategory;
+    /**
+     * UNISOC:bug1173712 Contact avatar and delete icon still exist after emergency contact is deleted@{
+     **/
+    private ContentObserver mObserver = new ContentObserver(
+            new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            if (mEmergencyContactsPreferenceCategory != null)
+                mEmergencyContactsPreferenceCategory.reloadFromPreference();
+        }
+    };
+
+    /**
+     * @}
+     **/
 
     private EmergencyNamePreference mEmergencyNamePreference;
 
@@ -81,6 +101,17 @@ public class EditInfoFragment extends PreferenceFragment {
         // Fill in emergency contacts.
         mEmergencyContactsPreferenceCategory = (EmergencyContactsPreference)
                 findPreference(PreferenceKeys.KEY_EMERGENCY_CONTACTS);
+
+        /* UNISOC: Bug1153137 disable the menu clearAll when the ecc info is empty @{ */
+        mEmergencyContactsPreferenceCategory.setNotifiMenuListener(new EmergencyContactsPreference.NotifyMenuListener() {
+            @Override
+            public void onNotifyMenu() {
+                if (getActivity() != null) {
+                    getActivity().invalidateOptionsMenu();
+                }
+            }
+        });
+        /* @} */
 
         Preference addEmergencyContact = findPreference(PreferenceKeys.KEY_ADD_EMERGENCY_CONTACT);
         addEmergencyContact.setOnPreferenceClickListener(new Preference
@@ -153,6 +184,11 @@ public class EditInfoFragment extends PreferenceFragment {
             Uri phoneUri = data.getData();
             mEmergencyContactsPreferenceCategory.addNewEmergencyContact(phoneUri);
         }
+        /* UNISOC: Bug1153137  disable the menu clearAll when the ecc info is empty @{ */
+        if (getActivity() != null) {
+            getActivity().invalidateOptionsMenu();
+        }
+        /* @} */
     }
 
     @VisibleForTesting
@@ -186,4 +222,23 @@ public class EditInfoFragment extends PreferenceFragment {
             return true;
         }
     }
+
+    /**
+     * UNISOC:bug1173712, Contact avatar and delete icon still exist after emergency contact is deleted@{
+     **/
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().getContentResolver().unregisterContentObserver(mObserver);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getActivity().getContentResolver().registerContentObserver(
+                ContactsContract.Contacts.CONTENT_URI, true, mObserver);
+    }
+    /**
+     * @}
+     **/
 }

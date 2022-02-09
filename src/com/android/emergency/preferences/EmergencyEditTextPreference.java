@@ -22,6 +22,7 @@ import androidx.preference.PreferenceViewHolder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.text.InputFilter;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -37,8 +38,13 @@ public class EmergencyEditTextPreference extends CustomEditTextPreference
 
     private static final int MAX_LINES = 50;
 
+    // UNISOC: Bug 1127843 modify the display when no input text
+    private Context mContext;
+
     public EmergencyEditTextPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
+        // UNISOC: Bug 1127843 modify the display when no input text
+        mContext = context;
         TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.EmergencyEditTextPreference, 0, 0);
         if (a.hasValue(R.styleable.EmergencyEditTextPreference_summary)) {
@@ -74,7 +80,14 @@ public class EmergencyEditTextPreference extends CustomEditTextPreference
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String text = (String) newValue;
-        setSummary(text);
+        /* UNISOC: Bug 1127843 modify the display when no input text @{ */
+        if (TextUtils.isEmpty(text) && mContext != null) {
+            setSummary(mContext.getResources().getString(R.string.unknown_name));
+            notifyChanged();
+        } else {
+            setSummary(text);
+        }
+        /* @} */
         return true;
     }
 
@@ -82,6 +95,16 @@ public class EmergencyEditTextPreference extends CustomEditTextPreference
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
         final EditText editText = view.findViewById(android.R.id.edit);
-        editText.setSelection(editText.getText().length());
+        /**
+         * SPRD: Bug1127843 It occured ANR when paste large string values and add input limit
+         * @{
+         */
+        if (editText != null) {
+            editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+            editText.setSelection(editText.getText().length());
+        }
+        /**
+         * @}
+         */
     }
 }

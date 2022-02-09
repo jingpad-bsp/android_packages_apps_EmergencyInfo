@@ -71,6 +71,11 @@ public class EditMedicalInfoFragment extends PreferenceFragment {
                         return ((Preference.OnPreferenceChangeListener) preference)
                                 .onPreferenceChange(preference, value);
                     }
+                    /* UNISOC: Bug1153137 disable the menu clearAll when the ecc info is empty @{ */
+                    if (getActivity() != null) {
+                        getActivity().invalidateOptionsMenu();
+                    }
+                    /* @} */
                     return true;
                 }
             });

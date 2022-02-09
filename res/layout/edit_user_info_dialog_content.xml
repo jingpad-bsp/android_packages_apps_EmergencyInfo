@@ -22,13 +22,13 @@
 
     <ImageView
         android:id="@+id/user_photo"
-        android:layout_width="56dip"
-        android:layout_height="56dip"
+        android:layout_width="66dip"
+        android:layout_height="66dip"
         android:layout_gravity="bottom"
         android:layout_marginEnd="6dp"
         android:contentDescription="@string/user_image_photo_selector"
         android:background="@*android:drawable/spinner_background_holo_dark"
-        android:scaleType="fitCenter"/>
+        android:scaleType="centerInside"/>
 
     <EditText
         android:id="@+id/user_name"
@@ -44,6 +44,7 @@
         android:labelFor="@id/user_photo"
         android:inputType="text|textCapWords"
         android:selectAllOnFocus="true"
+        android:maxLength="100"
         android:hint="@string/user_nickname"/>
 
 </LinearLayout>

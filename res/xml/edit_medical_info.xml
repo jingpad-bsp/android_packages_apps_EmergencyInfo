@@ -22,6 +22,7 @@
         android:icon="@drawable/ic_account_circle_filled_24dp"
         android:key="name"
         android:title="@string/name"
+        android:maxLength="100"
         app:summary="@string/unknown_name" />
 
     <com.android.emergency.preferences.EmergencyEditTextPreference

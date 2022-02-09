@@ -36,6 +36,11 @@ public class PreferenceUtils {
 
     /** Returns true if there is at least one preference set. */
     public static boolean hasAtLeastOnePreferenceSet(Context context) {
+        /* UNISOC: Add for Bug1130860 @{ */
+        if (context == null) {
+            return false;
+        }
+        /* @} */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         for (String key : PreferenceKeys.KEYS_VIEW_EMERGENCY_INFO) {
             if (!TextUtils.isEmpty(prefs.getString(key, ""))) {
@@ -47,6 +52,11 @@ public class PreferenceUtils {
 
     /** Returns true if there is at least one valid (still existing) emergency contact. */
     public static boolean hasAtLeastOneEmergencyContact(Context context) {
+        /* UNISOC: Add for Bug1130860 @{ */
+        if (context == null) {
+            return false;
+        }
+        /* @} */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String emergencyContactsString = "";
         try {
@@ -87,6 +97,11 @@ public class PreferenceUtils {
     }
 
     private static void setSettingsSuggestionState(Context context, int state) {
+        /* UNISOC: Add for Bug1138532 @{ */
+        if (context == null) {
+            return ;
+        }
+        /* @} */
         String packageName = context.getPackageName();
         String targetClass = packageName + SETTINGS_SUGGESTION_ACTIVITY_ALIAS;
         ComponentName name = new ComponentName(packageName, targetClass);

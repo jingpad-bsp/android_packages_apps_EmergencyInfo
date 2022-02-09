@@ -202,9 +202,9 @@
         <xliff:g id="phone_type" example="Mobile">%1$s</xliff:g> • <xliff:g id="phone_number" example="333-444-5566">%2$s</xliff:g>
     </string>
     <!-- Message shown when no emergency information has been provided by the user [CHAR LIMIT=NONE] -->
-    <string name="no_info_provided">No information about the phone\'s owner</string>
+    <string name="no_info_provided">No information about the tablet\'s owner</string>
     <!-- Extra message to indicate to the user that they can add emergency information [CHAR LIMIT=NONE] -->
-    <string name="tap_pencil">If this is your phone, tap the pencil icon to add information that will be displayed here in case of emergency</string>
+    <string name="tap_pencil">If this is your tablet, tap the pencil icon to add information that will be displayed here in case of emergency</string>
     <!-- Label for action item on the menu of the editing screen [CHAR LIMIT=15] -->
     <string name="clear_all">Clear all</string>
     <!-- Label for button of dialog shown to clear all information and contacts [CHAR LIMIT=15] -->
@@ -212,7 +212,7 @@
     <!-- Message of dialog shown to clear all information and contacts [CHAR LIMIT=NONE] -->
     <string name="clear_all_message">Clear all information and contacts?</string>
     <!-- Information footer describing the use of emergency information. [CHAR LIMIT=NONE] -->
-    <string name="emergency_info_footer">Adding medical information and emergency contacts can help first responders in an emergency.\n\nAnyone can read this information from your lock screen, and dial your contacts by tapping their names, without unlocking your phone.</string>
+    <string name="emergency_info_footer">Adding medical information and emergency contacts can help first responders in an emergency.\n\nAnyone can read this information from your lock screen, and dial your contacts by tapping their names, without unlocking your tablet.</string>
     <!-- Title for a suggestion to a user to set up their emergency information [CHAR_LIMIT=46] -->
     <string name="settings_suggestion_title">Add emergency information</string>
     <!-- Explanatory text for a suggestion to a user to set up their emergency information [CHAR_LIMIT=55] -->

@@ -90,6 +90,50 @@ public class EditInfoActivity extends Activity {
         return true;
     }
 
+    /* UNISOC: Bug1153137 disable the menu clearAll when the ecc info is empty @{ */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (isAllItemCleared()) {
+            disableMenu(menu);
+        }
+        return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.invalidateOptionsMenu();
+    }
+
+    public boolean isAllItemCleared() {
+        boolean flag = true;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getString(PreferenceKeys.KEY_EMERGENCY_CONTACTS, null) != null
+                && !sharedPreferences.getString(PreferenceKeys.KEY_EMERGENCY_CONTACTS, null).trim().isEmpty()) {
+            flag = false;
+        } else {
+            for (String key : PreferenceKeys.KEYS_EDIT_EMERGENCY_INFO) {
+                if (sharedPreferences.getString(key, null) != null &&
+                        !sharedPreferences.getString(key, null).trim().isEmpty()) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
+
+    public void disableMenu(Menu menu) {
+        if (menu == null) {
+            return;
+        }
+        for (int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).setVisible(false);
+            menu.getItem(i).setEnabled(false);
+        }
+    }
+    /* @} */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
@@ -132,6 +176,9 @@ public class EditInfoActivity extends Activity {
 
         // Refresh the UI.
         mEditInfoFragment.reloadFromPreference();
+        /* UNISOC: Bug1153137 disable the menu clearAll when the ecc info is empty @{ */
+        this.invalidateOptionsMenu();
+        /* @} */
     }
 
     /**
@@ -147,7 +194,11 @@ public class EditInfoActivity extends Activity {
                     .setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ((EditInfoActivity) getActivity()).onClearAllPreferences();
+                            /** UNISOC: modify for bug1118874 @{*/
+                            if (getActivity() != null) {
+                              ((EditInfoActivity) getActivity()).onClearAllPreferences();
+                            }
+                            /** @} */
                         }
                     })
                     .setNegativeButton(android.R.string.cancel, null)

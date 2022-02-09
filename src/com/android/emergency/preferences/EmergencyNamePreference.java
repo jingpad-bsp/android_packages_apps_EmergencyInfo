@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -145,7 +146,18 @@ public class EmergencyNamePreference extends CustomDialogPreference {
         super.onBindDialogView(view);
 
         mUserNameView = view.findViewById(R.id.user_name);
-        mUserNameView.setText(mUserManager.getUserName());
+        /**
+         * UNISOC: Bug1143852 it occured CRASH when paste large string value and add input limit
+         * @{
+         */
+        if (mUserNameView != null) {
+            mUserNameView.setText(mUserManager.getUserName());
+            mUserNameView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+            mUserNameView.setSelection(mUserNameView.getText().length());
+        }
+        /**
+         * @}
+         */
         mUserPhotoView = view.findViewById(R.id.user_photo);
         Drawable drawable;
         if (mSavedPhoto != null) {
@@ -198,9 +210,11 @@ public class EmergencyNamePreference extends CustomDialogPreference {
                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
                 setIcon(drawable);
             }
-            if (mFragment != null) {
+            /**UNISOC: Bug1114008 NullPointerException occurs occasionally when input and save the name. @{*/
+            if (mFragment != null && mFragment.getActivity() != null) {
                 mFragment.getActivity().removeDialog(1);
             }
+            /**@}*/
         }
         clear();
     }

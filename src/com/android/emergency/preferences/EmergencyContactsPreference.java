@@ -85,6 +85,18 @@ public class EmergencyContactsPreference extends PreferenceCategory
         this(context, attrs, DEFAULT_CONTACT_VALIDATOR, ContactPreference.DEFAULT_CONTACT_FACTORY);
     }
 
+    /* UNISOC: Bug1153137 disable the menu clearAll when the ecc info is empty @{ */
+    private NotifyMenuListener mNotifyMenuListener;
+
+    public interface NotifyMenuListener {
+        public void onNotifyMenu();
+    }
+
+    public void setNotifiMenuListener(NotifyMenuListener listener) {
+        mNotifyMenuListener = listener;
+    }
+    /* @} */
+
     @VisibleForTesting
     EmergencyContactsPreference(Context context, AttributeSet attrs,
             @NonNull ContactValidator contactValidator,
@@ -129,6 +141,11 @@ public class EmergencyContactsPreference extends PreferenceCategory
                 setEmergencyContacts(updatedContacts);
             }
         }
+        /* UNISOC: Bug1153137 disable the menu clearAll when the ecc info is empty @{ */
+        if (mNotifyMenuListener != null) {
+            mNotifyMenuListener.onNotifyMenu();
+        }
+        /* @} */
     }
 
     /**
